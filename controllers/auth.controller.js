@@ -1,7 +1,7 @@
 import express from "express"
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import Otp from "../models/Otp.js";
+import Otp from "../models/otp.js";
 import nodemailer from "nodemailer";
 import dotenv from 'dotenv'
 dotenv.config();
