@@ -1,5 +1,5 @@
 import express from "express";
-import noteController from "../controllers/note.controller.js";
+import noteController from "../controllers/note.Controller.js";
 import { authenticate } from "../libs/middleware.protected.js";
 
 const router = express.Router();
