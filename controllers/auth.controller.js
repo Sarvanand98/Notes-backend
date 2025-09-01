@@ -58,8 +58,8 @@ export default {
             const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
             res.cookie("jwt", token, {
                 httpOnly: true,
-                secure: true, 
-                sameSite: "lax", 
+                secure: true,
+                sameSite: "none",
                 maxAge: 7 * 24 * 60 * 60 * 1000
             });
             res.status(201).json({ success: true, token, user: newUser, message: "User created" });
@@ -72,9 +72,9 @@ export default {
     signin: async (req, res) => {
         try {
             const { email, otp, keepLoggedIn } = req.body
-             if (!email) {
-                    return res.status(400).json({ message: "All fields are required" });
-                }
+            if (!email) {
+                return res.status(400).json({ message: "All fields are required" });
+            }
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 return res.status(400).json({ message: "Invalid email format" });
@@ -108,9 +108,9 @@ export default {
             const token = jwt.sign({ userId: existUser._id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
             res.cookie("jwt", token, {
                 httpOnly: true,
-                secure: false, 
-                sameSite: "lax", 
-                maxAge: keepLoggedIn? 7 * 24 * 60 * 60 * 1000 : undefined
+                secure: true,
+                sameSite: "none",
+                maxAge: keepLoggedIn ? 7 * 24 * 60 * 60 * 1000 : undefined
             });
             res.status(200).json({ success: true, token, user: existUser, message: "Signin successful" });
 
@@ -123,7 +123,7 @@ export default {
         res.clearCookie("jwt");
         res.status(200).json({ message: "Logged out successfully" });
     },
-   
+
     resendOtp: async (req, res) => {
         try {
             const { email, type } = req.body;
@@ -164,5 +164,5 @@ export default {
             res.status(500).json({ message: "Internal Server Error!" });
         }
     },
-   
+
 }
